@@ -100,3 +100,16 @@ my_table2 = my_DB.search('countries')
 my_table3 = my_table1.join(my_table2, 'country')
 my_table3_filtered = my_table3.filter(lambda x: x['EU'] == 'no').filter(lambda x: float(x['temperature']) < 5.0)
 print(my_table3_filtered.table)
+
+eccity = my_table3.filter(lambda x: x['EU'] == 'yes').filter(lambda x: x['coastline'] == 'no')
+print('max')
+print(eccity.aggregate(lambda x: max(x), 'temperature'))
+print('min')
+print(eccity.aggregate(lambda x: min(x), 'temperature'))
+
+
+for countries in my_table3.table:
+    print('min')
+    print(countries['country'], my_table3.filter(lambda x: x['country'] == countries['country']).aggregate(lambda x: min(x), 'latitude'))
+    print('max')
+    print(countries['country'], my_table3.filter(lambda x: x['country'] == countries['country']).aggregate(lambda x: max(x), 'latitude'))
